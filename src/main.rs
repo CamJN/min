@@ -1,21 +1,13 @@
 use std::io::BufRead;
-//use std::str::FromStr;
+use std::str::FromStr;
+use std::fmt::Debug;
 
-// fn iter_to_min<T,U>(i:T) -> U where T:Iterator<Item=String>,U: Ord+FromStr{
-//     i.flat_map(str::split_whitespace)
-//         .map(str::trim)
-//         .map(str::parse::<U>)
-//         .map(Result::unwrap)
-//         .min()
-//         .expect("No min found.")
-// }
-
-fn iter_to_min<T>(i:T) -> i64 where T:Iterator<Item=String>{
+fn iter_to_min<T,U>(i:T) -> U where T:Iterator<Item=String>,U: Ord+FromStr, U::Err: Debug{
     i.collect::<Vec<String>>()
         .iter()
         .flat_map(|s|s.split_whitespace())
         .map(str::trim)
-        .map(str::parse::<i64>)
+        .map(str::parse::<U>)
         .map(Result::unwrap)
         .min()
         .expect("No min found.")
@@ -24,8 +16,8 @@ fn iter_to_min<T>(i:T) -> i64 where T:Iterator<Item=String>{
 fn main() {
     let a: Vec<_> = std::env::args().skip(1).collect();
     let m:i64 = if a.is_empty() {
-        let i = std::io::stdin();
-        let m = iter_to_min(i.lock().lines().map(Result::unwrap));
+        let s = std::io::stdin();
+        let m = iter_to_min(s.lock().lines().map(Result::unwrap));
         m
     }else{
         iter_to_min(a.into_iter())
