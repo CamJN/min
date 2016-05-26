@@ -1,0 +1,6 @@
+[package]
+name = "min"
+version = "0.1.0"
+authors = ["Camden Narzt <admin@silversshadows.com>"]
+
+[dependencies]
