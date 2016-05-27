@@ -6,7 +6,6 @@ fn iter_to_min<T,U>(i:T) -> U where T:Iterator<Item=String>,U: Ord+FromStr, U::E
     i.collect::<Vec<String>>()
         .iter()
         .flat_map(|s|s.split_whitespace())
-        .map(str::trim)
         .map(str::parse::<U>)
         .map(Result::unwrap)
         .min()
